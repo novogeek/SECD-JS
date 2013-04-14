@@ -9,8 +9,20 @@
             <h3>An implementation of SECD machine in JavaScript</h3>
             <div id="divInput">
                 <div><input type="text" id="txtInput" placeholder="Enter lambda expression here and hit return..." value="app:{func:{arg:'x',body:{succ:{succ:'x'}}},val: 0}" autofocus="true" /></div>
-                <div id="divEx">Ex: (succ 0) | (succ (succ 15)) | (fun x (succ (succ 5)))</div>
+                <h4>Examples:</h4>
+                <div id="divEx">
+                    <span>succ:1 </span>
+                    <span>succ:{succ:{succ:1}}</span>
+                    <span>add: [1,2]</span>
+                    <span>mult:[1,2,3]</span>
+                    <span>succ:{add:[1,2,3]}</span>
+                    <span>succ:{succ:{mult:[2,2]}}</span>
+                    <span>app:{func:{arg:'x',body:'x'},val: 0}</span>
+                    <span>app:{func:{arg:'x',body:{succ:{succ:'x'}}},val: 0}</span>
+                    <span>app:{func:{arg:'x',body:{succ:{add:['x',1]}}},val: 0}</span>
+                </div>
             </div>
+            <h4>Result:</h4>
             <div id="divResults">
 
             </div>

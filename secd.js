@@ -18,12 +18,9 @@
         var DomOperations = function () {
             txtInput.onkeypress = function (e) {
                 if (e.keyCode === 13) {
-                    var newDiv = document.createElement("div");
                     var code = parseCode(txtInput.value);
                     var result = RunSECD(code, new Array());
-                    newDiv.innerHTML = result;
-                    divResults.appendChild(newDiv);
-                    //txtInput.value = '';
+                    divResults.innerHTML = result;
                 }
             }
         };
