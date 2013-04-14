@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>SECD Virtual Machine in JavaScript</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="divContainer">
+            <h3>An implementation of SECD machine in JavaScript</h3>
+            <div id="divInput">
+                <div><input type="text" id="txtInput" placeholder="Enter lambda expression here and hit return..." value="app:{func:{arg:'x',body:{succ:{succ:'x'}}},val: 0}" autofocus="true" /></div>
+                <div id="divEx">Ex: (succ 0) | (succ (succ 15)) | (fun x (succ (succ 5)))</div>
+            </div>
+            <div id="divResults">
+
+            </div>
+        </div>
+        <script src="secd.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
