@@ -18,9 +18,22 @@
         var DomOperations = function () {
             txtInput.onkeypress = function (e) {
                 if (e.keyCode === 13) {
+					console.log("--- Begin SECD ---");
                     var code = parseCode(txtInput.value);
                     var result = RunSECD(code, new Array());
                     divResults.innerHTML = result;
+					console.log("--- End SECD ---");
+                }
+            }
+
+            var sideBar = document.getElementById('divSidebar');
+            var arr = sideBar.getElementsByTagName('span');
+            var arrlen = arr.length;
+            for (i = 0; i < arrlen; i++) {
+                arr[i].onclick = function () {
+                    //console.log('i: ', this.innerText);
+                    txtInput.value = (document.all)? this.innerText:this.textContent;
+                    txtInput.focus();
                 }
             }
         };
@@ -36,6 +49,7 @@
         //app:{func:{arg:'x',body:{succ:{add:['x',1]}}},val: 0}
 
         var buildAST = function (astObj, astArr) {
+            //console.log('buildAST: astObj :: ', astObj, ' astArr :: ', astArr);
             for (var prop in astObj) {
                 //console.log("prop: ", prop, "!!astObj[prop].length: ", !!astObj[prop].length);
                 if (prop === "app") {
@@ -43,7 +57,7 @@
                     buildAST(astObj[prop], astArr);
                 }
                 if (prop === "func") {
-                    console.log('func astArr: ', astArr);
+                    //console.log('func astArr: ', astArr);
                     astArr.push(prop);
                 }
                 if (prop === "val") {
@@ -60,19 +74,19 @@
                     }
                 }
                 if ((prop === "add") || (prop === "mult")) {
-                    //console.log('add/mult: ', astObj[prop]);
                     astArr.push(prop);
                     buildAST(astObj[prop], astArr);
+                    //console.log('add/mult: ', prop, astObj[prop]);
                 }
                 if (typeof (astObj) === "object" && astObj.length) { //For iterating add,mult array
-                    //console.log('!!astObj[prop].length', prop, astObj[prop]);
+                    //console.log('prop :', prop,' astObj[prop]: ', astObj[prop]);
                     astArr.push(astObj[prop]);
                     buildAST(astObj[prop], astArr);
                 }
                 if (typeof astObj === "string") {
-                    console.log('str: ', astArr);
+                    //console.log('str: ', astArr, astObj);
                     astArr.push(astObj);
-                    console.log('str: ', astArr);
+                    //console.log('str: ', astArr, astObj);
                 }
             }
             return astArr;
@@ -85,12 +99,12 @@
             astObject = ast;
             console.log('input ast: ', astObject);
             var astArr=buildAST(ast, new Array());
-            console.log('parseCode astArr: ', astArr);
+            //console.log('parseCode astArr: ', astArr);
             return astArr;
         }
 
         var LDC = function (stack, con) {
-            console.log('run_secd: ldc');
+            //console.log('run_secd: ldc');
             stack.push(con);
 			return stack;
         }
@@ -119,20 +133,21 @@
 
         var FUNC = function (stack) {
             var funcAst = buildAST(astObject.app.func.body, new Array());
+            //console.log('func ast: ', funcAst);
             stack=stack.concat(funcAst);
-            console.log('func stack:', stack);
+            //console.log('func stack:', stack);
             return stack;
         }
 
         var APP = function (stack, env) {
-            console.log('APP: stack: ', stack);
+            //console.log('APP: stack: ', stack);
             //console.log('APP: arg:', astObject.app.func.arg, ' val: ', env[0][astObject.app.func.arg]);
             var index = stack.indexOf(astObject.app.func.arg);
             stack[index] = env[0][astObject.app.func.arg];
-            console.log('APP: stack: ', stack);
+            //console.log('APP: stack: ', stack);
             var s = [];
             s.push(RunSECD(stack, env));
-            console.log('app: s: ', s);
+            //console.log('app: s: ', s);
             return s;
         }
 
@@ -172,7 +187,7 @@
                     s = FUNC(s);
                 }
                 else if (ltemp === "app") {
-                    console.log("app");
+                    //console.log("app");
                     s = APP(s,e);
                 }
             }
